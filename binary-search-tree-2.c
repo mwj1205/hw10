@@ -49,11 +49,6 @@ int freeBST(Node* head); /* free all memories allocated to the tree */
 
 /* you may add your own defined functions if necessary */
 
-
-void printStack();
-
-
-
 int main()
 {
 	char command;
@@ -103,10 +98,6 @@ int main()
 			levelOrder(head->left);
 			break;
 
-		// case 'p': case 'P':
-		// 	printStack();
-		// 	break;
-
 		default:
 			printf("\n       >>>>>   Concentration!!   <<<<<     \n");
 			break;
@@ -130,13 +121,9 @@ int initializeBST(Node** h) {
 	(*h)->key = -9999;
 
 	top = -1;
-
 	front = rear = -1;
-
 	return 1;
 }
-
-
 
 void recursiveInorder(Node* ptr)
 {
@@ -183,7 +170,6 @@ void levelOrder(Node* ptr)
 		else break;
 	}
 }
-
 
 int insert(Node* head, int key)
 {
@@ -302,21 +288,17 @@ void freeNode(Node* ptr)
 
 int freeBST(Node* head)
 {
-
 	if(head->left == head)
 	{
 		free(head);
 		return 1;
 	}
-
 	Node* p = head->left;
 
 	freeNode(p);
-
 	free(head);
 	return 1;
 }
-
 
 
 Node* pop()
@@ -331,7 +313,6 @@ void push(Node* aNode)
 }
 
 
-
 Node* deQueue()
 {
 	if(front == rear) return NULL; // 큐가 공백이면 NULL 리턴
@@ -342,8 +323,3 @@ void enQueue(Node* aNode)
 {
 	queue[++rear] = aNode;
 }
-
-
-
-
-
