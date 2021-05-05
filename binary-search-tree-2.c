@@ -59,7 +59,7 @@ int main()
 	char command;
 	int key;
 	Node* head = NULL;
-
+	printf("[----- [한민우] [2018038047] -----]\n");
 	do{
 		printf("\n\n");
 		printf("----------------------------------------------------------------\n");
@@ -208,6 +208,64 @@ int insert(Node* head, int key)
 
 int deleteNode(Node* head, int key)
 {
+		/* check pre conditions */
+	if(head == NULL){
+		printf("Binary search tree is not initialized.\n");
+		return 0;
+	}
+	Node* delnode = head->left;
+	Node* prev = NULL;
+
+	while(delnode->key != key){ // 삭제할 노드 탐색
+		prev = delnode;
+		if(delnode->key < key) delnode = delnode->left;
+		else delnode = delnode->right;
+	}
+
+	/* 원하는 노드가 없다면 delnode == NULL */
+	if(!delnode){
+		printf("Cannot find the node [%d]\n",key);
+		return;
+	}
+	// 1.삭제할 노드가 리프노드라면
+	if(delnode->left == NULL && delnode->right == NULL){
+		if(prev){ // 부모 노드가 NULL이 아니면
+		if(prev->left == delnode) prev->left == NULL;
+		else prev->right == NULL;
+		}
+		else head->left == NULL; // 부모노드가 NULL이면 (삭제 대상 노드가 root인 경우)
+	}
+	// 2.삭제할 노드의 자식 노드가 하나 있다면
+	else if(delnode->left == NULL || delnode->right == NULL){
+		if(prev->left == delnode){ // 삭제 대상인 노드가 부모노드의 왼쪽 자식노드
+			if(delnode->left != NULL) prev->left = delnode->left; // 삭제 대상 노드의 자식 노드가 왼쪽
+			else prev->left = delnode->right; // 삭제 대상 노드의 자식 노드가 오른쪽
+		}
+		else{ // 삭제 대상인 노드가 부모노드의 오른쪽 자식노드
+			if(delnode->left != NULL) prev->right = delnode->left; // 삭제 대상 노드의 자식 노드가 왼쪽
+			else prev->right = delnode->right; // 삭제 대상 노드의 자식 노드가 오른쪽
+		}
+	}
+	// 3. 삭제할 노드의 자식 노드가 2개라면
+	else{
+		/* 오른쪽 서브트리에서 가장 작은 노드 찾기 */
+		Node* stree = delnode->right;
+		Node* pstree = delnode;
+		while(stree->left != NULL){
+			pstree = stree;
+			stree = stree->left;
+		}
+		// 오른쪽 서브트리에서 가장 작은 노드의 자식노드 연결
+		if(pstree == delnode)
+			pstree->right = stree->right;
+		else pstree->left = stree->right;
+		// 삭제 대상 노드 자리에 왼쪽 서브트리에서 찾은 노드 삽입
+		stree->left = delnode->left;
+		stree->right = delnode->right;
+		if(prev->left == delnode) prev->left = stree;
+		else prev->right = stree;
+	}
+	free(delnode);
 }
 
 
