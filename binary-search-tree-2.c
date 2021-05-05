@@ -144,7 +144,7 @@ void iterativeInorder(Node* node)
 			push(node); // 스택에 삽입
 		}
 		node = pop(); // 스택에서 삭제
-		if(!node) break; // 스택이 공백이면
+		if(!node) break; // 스택이 공백이면 종료
 		printf(" [%d] ", node->key);
 		node = node->right;
 	}
@@ -163,7 +163,7 @@ void levelOrder(Node* ptr)
 		ptr = deQueue(); // 큐에 저장된 노드 받아옴
 		if(ptr){ // 큐가 공백이 아니면
 			printf(" [%d] ", ptr->key);
-			// 자식이 공백이 아니면 큐에 삽입
+			// 자식노드 큐에 삽입
 			if(ptr->left) enQueue(ptr->left);
 			if(ptr->right) enQueue(ptr->right);
 		}
@@ -222,8 +222,8 @@ int deleteNode(Node* head, int key)
 		printf("Binary search tree is not initialized.\n");
 		return 0;
 	}
-	Node* delnode = head->left;
-	Node* prev = head;
+	Node* delnode = head->left; // 삭제할 노드
+	Node* prev = head; // 삭제할 노드의 부모노드
 
 	while(delnode != NULL && delnode->key != key){ // 삭제할 노드 탐색
 		prev = delnode;
@@ -263,10 +263,10 @@ int deleteNode(Node* head, int key)
 			stree = stree->left;
 		}
 		// 오른쪽 서브트리에서 가장 작은 노드의 자식노드 연결
-		if(pstree == delnode)
+		if(pstree == delnode) // 삭제 대상의 바로 오른쪽 자식노드가 가장 작은 노드라면
 			pstree->right = stree->right;
 		else pstree->left = stree->right;
-		// 삭제 대상 노드 자리에 왼쪽 서브트리에서 찾은 노드 삽입
+		// 삭제 대상 노드 자리에 오른쪽 서브트리에서 찾은 노드 삽입
 		stree->left = delnode->left;
 		stree->right = delnode->right;
 		if(prev->left == delnode) prev->left = stree;
@@ -317,13 +317,13 @@ Node* deQueue()
 {
 	if(front == rear) return NULL; // 큐가 공백이면 NULL 리턴
 	else{
-		front = (front + 1) % MAX_QUEUE_SIZE;
-		return queue[front];
+		front = (front + 1) % MAX_QUEUE_SIZE; // front를 앞으로 한 칸 이동시킨다
+		return queue[front]; // front에 노드 삭제
 	}
 }
 
 void enQueue(Node* aNode)
 {
-	rear = (rear +1) % MAX_QUEUE_SIZE;
-	queue[rear] = aNode;
+	rear = (rear +1) % MAX_QUEUE_SIZE; // rear을 앞으로 한 칸 이동시킨다
+	queue[rear] = aNode; // rear자리에 노드 삽입
 }
