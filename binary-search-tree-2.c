@@ -316,10 +316,14 @@ void push(Node* aNode)
 Node* deQueue()
 {
 	if(front == rear) return NULL; // 큐가 공백이면 NULL 리턴
-	else return queue[++front];
+	else{
+		front = (front + 1) % MAX_QUEUE_SIZE;
+		return queue[front];
+	}
 }
 
 void enQueue(Node* aNode)
 {
-	queue[++rear] = aNode;
+	rear = (rear +1) % MAX_QUEUE_SIZE;
+	queue[rear] = aNode;
 }
