@@ -103,9 +103,9 @@ int main()
 			levelOrder(head->left);
 			break;
 
-		case 'p': case 'P':
-			printStack();
-			break;
+		// case 'p': case 'P':
+		// 	printStack();
+		// 	break;
 
 		default:
 			printf("\n       >>>>>   Concentration!!   <<<<<     \n");
@@ -168,8 +168,8 @@ void iterativeInorder(Node* node)
  */
 void levelOrder(Node* ptr)
 {
-	front = -1;
-	rear = -1;
+	front = 0;
+	rear = 0;
 	if(!ptr) return; /* 공백트리면 리턴 */
 	enQueue(ptr);
 	while(1){
@@ -237,26 +237,24 @@ int deleteNode(Node* head, int key)
 		return 0;
 	}
 	Node* delnode = head->left;
-	Node* prev = NULL;
+	Node* prev = head;
 
-	while(delnode->key != key){ // 삭제할 노드 탐색
+	while(delnode != NULL && delnode->key != key){ // 삭제할 노드 탐색
 		prev = delnode;
-		if(delnode->key < key) delnode = delnode->left;
+		if(delnode->key > key) delnode = delnode->left;
 		else delnode = delnode->right;
 	}
 
 	/* 원하는 노드가 없다면 delnode == NULL */
 	if(!delnode){
 		printf("Cannot find the node [%d]\n",key);
-		return;
+		return 0;
 	}
 	// 1.삭제할 노드가 리프노드라면
 	if(delnode->left == NULL && delnode->right == NULL){
-		if(prev){ // 부모 노드가 NULL이 아니면
-		if(prev->left == delnode) prev->left == NULL;
-		else prev->right == NULL;
-		}
-		else head->left == NULL; // 부모노드가 NULL이면 (삭제 대상 노드가 root인 경우)
+		/* 삭제 대상인 노드를 가리키던 링크를 해제 */
+		if(prev->left == delnode) prev->left = NULL;
+		else prev->right = NULL;
 	}
 	// 2.삭제할 노드의 자식 노드가 하나 있다면
 	else if(delnode->left == NULL || delnode->right == NULL){
@@ -289,6 +287,7 @@ int deleteNode(Node* head, int key)
 		else prev->right = stree;
 	}
 	free(delnode);
+	return 0;
 }
 
 
@@ -322,21 +321,26 @@ int freeBST(Node* head)
 
 Node* pop()
 {
-
+	if(top == -1) return NULL; // 스택이 공백이면 NULL 리턴
+	else return stack[top--]; // 공백이 아니면 탑에 원소 리턴, 탑 -1
 }
 
 void push(Node* aNode)
 {
+	stack[++top] = aNode; // 탑 +1, 스택에 노드 포인터 삽입
 }
 
 
 
 Node* deQueue()
 {
+	if(front == rear) return NULL; // 큐가 공백이면 NULL 리턴
+	else return queue[front++];
 }
 
 void enQueue(Node* aNode)
 {
+	queue[++rear] = aNode;
 }
 
 
