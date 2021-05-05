@@ -171,7 +171,17 @@ void levelOrder(Node* ptr)
 	front = -1;
 	rear = -1;
 	if(!ptr) return; /* 공백트리면 리턴 */
-	
+	enQueue(ptr);
+	while(1){
+		ptr = deQueue(); // 큐에 저장된 노드 받아옴
+		if(ptr){ // 큐가 공백이 아니면
+		printf(" [%d] ", ptr->key);
+		// 자식이 공백이 아니면 큐에 삽입
+		if(ptr->left) enQueue(ptr->left);
+		if(ptr->right) enQueue(ptr->right);
+		}
+		else break;
+	}
 }
 
 
@@ -312,6 +322,7 @@ int freeBST(Node* head)
 
 Node* pop()
 {
+
 }
 
 void push(Node* aNode)
