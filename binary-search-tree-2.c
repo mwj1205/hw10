@@ -152,6 +152,15 @@ void recursiveInorder(Node* ptr)
  */
 void iterativeInorder(Node* node)
 {
+	while(1){
+		for( ; node; node = node->left){
+			push(node); // 스택에 삽입
+		}
+		node = pop(); // 스택에서 삭제
+		if(!node) break; // 스택이 공백이면
+		printf(" [%d] ", node->key);
+		node = node->right;
+	}
 }
 
 /**
@@ -159,6 +168,10 @@ void iterativeInorder(Node* node)
  */
 void levelOrder(Node* ptr)
 {
+	front = -1;
+	rear = -1;
+	if(!ptr) return; /* 공백트리면 리턴 */
+	
 }
 
 
