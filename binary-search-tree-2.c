@@ -153,7 +153,7 @@ void recursiveInorder(Node* ptr)
 void iterativeInorder(Node* node)
 {
 	while(1){
-		for( ; node; node = node->left){
+		for( ; node; node = node->left){ // 왼쪽 자식따라 계속 이동
 			push(node); // 스택에 삽입
 		}
 		node = pop(); // 스택에서 삭제
@@ -168,17 +168,17 @@ void iterativeInorder(Node* node)
  */
 void levelOrder(Node* ptr)
 {
-	front = 0;
-	rear = 0;
+	front = -1;
+	rear = -1;
 	if(!ptr) return; /* 공백트리면 리턴 */
 	enQueue(ptr);
 	while(1){
 		ptr = deQueue(); // 큐에 저장된 노드 받아옴
 		if(ptr){ // 큐가 공백이 아니면
-		printf(" [%d] ", ptr->key);
-		// 자식이 공백이 아니면 큐에 삽입
-		if(ptr->left) enQueue(ptr->left);
-		if(ptr->right) enQueue(ptr->right);
+			printf(" [%d] ", ptr->key);
+			// 자식이 공백이 아니면 큐에 삽입
+			if(ptr->left) enQueue(ptr->left);
+			if(ptr->right) enQueue(ptr->right);
 		}
 		else break;
 	}
@@ -335,7 +335,7 @@ void push(Node* aNode)
 Node* deQueue()
 {
 	if(front == rear) return NULL; // 큐가 공백이면 NULL 리턴
-	else return queue[front++];
+	else return queue[++front];
 }
 
 void enQueue(Node* aNode)
